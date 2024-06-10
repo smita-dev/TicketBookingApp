@@ -48,4 +48,10 @@ public class User {
     public void setBookedTicket(List<Ticket> bookedTicket) {
         this.bookedTicket = bookedTicket;
     }
+
+    public void printTicket(){
+        for (Ticket ticket : bookedTicket) {
+            System.out.println(ticket);
+        }
+    }
 }

@@ -2,6 +2,7 @@ package ticket.booking.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import ticket.booking.entities.Ticket;
 import ticket.booking.entities.User;
 import ticket.booking.utils.UserServiceUtils;
 
@@ -18,8 +19,8 @@ public class UserService {
 
     public UserService(User user) throws IOException {
         this.user=user;
-        File users=new File(USERS_PATH);
-        users=objectMapper.readValue(users,new TypeReference<List<User>>(){});
+        File userFile=new File(USERS_PATH);
+        users=objectMapper.readValue(userFile,new TypeReference<List<User>>(){});
     }
 
     /*user_id should map to userId*/
@@ -43,5 +44,20 @@ public class UserService {
     public void saveUserListToFile() throws IOException {
         File file=new File(USERS_PATH);
         objectMapper.writeValue(file,users);
+    }
+
+    public void fetchBooking(){
+        user.printTicket();
+    }
+
+    public Boolean cancelTicket(int ticketId) throws IOException {
+        //fetchTicket and remove it and save updated data to file i.e local db
+        Optional<Ticket> foundTicket=user.getBookedTicket().stream().filter(ticket->{return ticket.getTicketId().equals(ticketId)}).findFirst();
+        if(foundTicket.isPresent()){
+            user.getBookedTicket().remove(foundTicket);
+            saveUserListToFile();
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
     }
 }
