@@ -3,9 +3,38 @@
  */
 package ticket.booking;
 
+import ticket.booking.service.UserService;
+
+import java.io.IOException;
+import java.util.Scanner;
+
 public class App {
 
     public static void main(String[] args) {
+        System.out.println("Running Train Booking System");
+        Scanner sc=new Scanner(System.in);
+        int option=0;
+        UserService userService;
+        try {
+            userService=new UserService();
+        } catch (IOException e) {
+            System.out.println("There is something wrong");
+        }
 
+        while(option!=7){
+            System.out.println("Choose option");
+            System.out.println("1. Sign up");
+            System.out.println("2. Login");
+            System.out.println("3. Fetch Bookings");
+            System.out.println("4. Search Trains");
+            System.out.println("5. Book a Seat");
+            System.out.println("6. Cancel my Booking");
+            System.out.println("7. Exit the App");
+            option=sc.nextInt();
+
+            switch(option){
+
+            }
+        }
     }
 }

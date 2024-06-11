@@ -17,15 +17,25 @@ public class UserService {
     private List<User> users;
     private ObjectMapper objectMapper= new ObjectMapper();
 
+    public UserService() throws IOException {
+        //userservice default constructor where we will just load other users data
+        //as we don't have current user logged we won;t initialize it
+        users=getUsers();
+    }
+
     public UserService(User user) throws IOException {
         this.user=user;
+        users=getUsers();
+    }
+
+    public List<User> getUsers() throws IOException {
         File userFile=new File(USERS_PATH);
-        users=objectMapper.readValue(userFile,new TypeReference<List<User>>(){});
+        return objectMapper.readValue(userFile,new TypeReference<List<User>>(){});
     }
 
     /*user_id should map to userId*/
     public Boolean loginUser(User user){
-       Optional<User> foundUser =users.stream().filter(user1->{ return user1.getName().equals(user.getName()) && UserServiceUtils.checkPassword(user.getPassword(),user1.getHashPassword())
+       Optional<User> foundUser =users.stream().filter(user1->{ return user1.getName().equals(user.getName()) && UserServiceUtils.checkPassword(user.getPassword(),user1.getHashPassword());
        }).findFirst();
 
        return foundUser.isPresent();
@@ -35,7 +45,7 @@ public class UserService {
         try {
             users.add(user);
             saveUserListToFile();
-            return Boolean.True;
+            return Boolean.TRUE;
         } catch (IOException e) {
             return Boolean.FALSE;
         }
@@ -52,7 +62,7 @@ public class UserService {
 
     public Boolean cancelTicket(int ticketId) throws IOException {
         //fetchTicket and remove it and save updated data to file i.e local db
-        Optional<Ticket> foundTicket=user.getBookedTicket().stream().filter(ticket->{return ticket.getTicketId().equals(ticketId)}).findFirst();
+        Optional<Ticket> foundTicket=user.getBookedTicket().stream().filter(ticket->{return ticket.getTicketId().equals(ticketId);}).findFirst();
         if(foundTicket.isPresent()){
             user.getBookedTicket().remove(foundTicket);
             saveUserListToFile();
