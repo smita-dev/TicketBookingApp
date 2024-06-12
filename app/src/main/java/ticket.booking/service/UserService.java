@@ -3,6 +3,7 @@ package ticket.booking.service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ticket.booking.entities.Ticket;
+import ticket.booking.entities.Train;
 import ticket.booking.entities.User;
 import ticket.booking.utils.UserServiceUtils;
 
@@ -69,5 +70,17 @@ public class UserService {
             return Boolean.TRUE;
         }
         return Boolean.FALSE;
+    }
+
+    public List<Train> getTrains(String source, String destination){
+        TrainService trainService= null;
+        try {
+            trainService = new TrainService();
+            return trainService.searchTrains(source,destination);
+        } catch (IOException e) {
+            System.out.println("Error while searching trains");
+            return null;
+        }
+
     }
 }

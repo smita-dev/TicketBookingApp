@@ -9,6 +9,14 @@ public class User {
     private String hashPassword;
     private List<Ticket> bookedTicket;
 
+    public User(String name, String userId, String password, List<Ticket> bookedTicket) {
+        this.name = name;
+        this.userId = userId;
+        this.password = password;
+        this.hashPassword = hashPassword;
+        this.bookedTicket = bookedTicket;
+    }
+
     public String getName() {
         return name;
     }
