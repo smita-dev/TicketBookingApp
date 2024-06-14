@@ -3,10 +3,14 @@
  */
 package ticket.booking;
 
+import ticket.booking.entities.Ticket;
+import ticket.booking.entities.Train;
+import ticket.booking.entities.User;
 import ticket.booking.service.UserService;
+import ticket.booking.utils.UserServiceUtils;
 
 import java.io.IOException;
-import java.util.Scanner;
+import java.util.*;
 
 public class App {
 
@@ -19,6 +23,7 @@ public class App {
             userService=new UserService();
         } catch (IOException e) {
             System.out.println("There is something wrong");
+            return;
         }
 
         while(option!=7){
@@ -31,8 +36,52 @@ public class App {
             System.out.println("6. Cancel my Booking");
             System.out.println("7. Exit the App");
             option=sc.nextInt();
-
+            Train trainToBookSeat;
             switch(option){
+                case 1:
+                      System.out.println("Enter the username to signup.");
+                      String nameToSignUp=sc.next();
+                      System.out.println("Enter the password to signup.");
+                      String passwordToSignUp=sc.next();
+                      User userToSignUp=new User(nameToSignUp, UUID.randomUUID().toString(), UserServiceUtils.hashPassword(passwordToSignUp),new ArrayList<Ticket>());
+                      userService.signUp(userToSignUp);
+                      break;
+                
+                case 2:
+                    System.out.println("Enter the username to login");
+                    String nameToLogin=sc.next();
+                    System.out.println("Enter the password to login");
+                    String passwordToLogin=sc.next();
+                    User userToLogin=new User(nameToLogin,null, UserServiceUtils.hashPassword(passwordToLogin),new ArrayList<Ticket>());
+                    userService.loginUser(userToLogin);
+                    break;
+
+                case 3:
+                    System.out.println("Your Bookings are: ");
+                    userService.fetchBooking();
+                    break;
+
+                case 4:
+                      System.out.println("Enter Source ");
+                      String source=sc.next();
+                    System.out.println("Enter destination");
+                      String destination=sc.next();
+                      List<Train> trains=userService.getTrains(source,destination);
+                      int index=1;
+                      for(Train train:trains){
+                          System.out.println(index+" "+train.getTrainId());
+                          for(Map.Entry<String, Date>entry:train.getStationTimes().entrySet()){
+                              System.out.println("station : "+entry.getKey()+" time: "+entry.getValue());
+                          }
+                      }
+                      System.out.println("Select a Train by typing 1,2,3...");
+                    trainToBookSeat=trains.get(sc.nextInt());
+                      break;
+
+                case 5:
+                    break;
+                case 6:
+                    break;
 
             }
         }
