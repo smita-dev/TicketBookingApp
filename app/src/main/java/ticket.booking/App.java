@@ -79,6 +79,11 @@ public class App {
                       break;
 
                 case 5:
+                    System.out.println("Enter Source ");
+                    String sourceStation=sc.next();
+                    System.out.println("Enter destination");
+                    String destinationStation=sc.next();
+
                     break;
                 case 6:
                     break;
