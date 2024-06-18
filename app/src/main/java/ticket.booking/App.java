@@ -75,7 +75,7 @@ public class App {
                           }
                       }
                       System.out.println("Select a Train by typing 1,2,3...");
-                    trainToBookSeat=trains.get(sc.nextInt());
+                      trainToBookSeat=trains.get(sc.nextInt());
                       break;
 
                 case 5:
@@ -83,8 +83,18 @@ public class App {
                     String sourceStation=sc.next();
                     System.out.println("Enter destination");
                     String destinationStation=sc.next();
-
+                    List<Train> trainss = userBookingService.getTrains(sourceStation, dest);
+                    int indexx = 1;
+                    for (Train t: trainss){
+                        System.out.println(indexx+" Train id : "+t.getTrainId());
+                        for (Map.Entry<String, Date> entry: t.getStationTimes().entrySet()){
+                            System.out.println("station "+entry.getKey()+" time: "+entry.getValue());
+                        }
+                    }
+                    System.out.println("Select a train by typing 1,2,3...");
+                    int trainSelectedForBooking = trainss.get(scanner.nextInt());
                     break;
+
                 case 6:
                     break;
 
